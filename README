@@ -1,9 +1,9 @@
-TERRAFORM-DEVEL-SETUP 
+DEVEL-TERRAFORM
 ######################################
 
 DESCRIPTION:
 --------------------------------------
-Simple local devel setup aimed for terraform, extended on makefile and docker compose.
+Simple local development setup aimed for terraform, extended on makefile and docker compose.
 
 
 REPOSITORY STRUCTURE:
