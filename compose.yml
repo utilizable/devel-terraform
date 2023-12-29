@@ -1,0 +1,76 @@
+version: "3.2"
+services:
+
+# COMMON 
+
+  common: &common
+    image: hashicorp/terraform:latest
+    working_dir: /app
+    entrypoint: [ "ash", "-c" ]
+    env_file:
+      - .env
+    volumes:
+      - ./terraform:/app
+      - tfdata:/tfdata
+
+# TERRAFORM STAGES
+
+  init:
+    <<: *common
+    container_name: "terraform-vm-init"
+    command:
+      - |
+        terraform init \
+          -backend-config="access_key=${TF_VAR_backend_access_key}" \
+          -backend-config="secret_key=${TF_VAR_backend_secret_key}" \
+          -backend-config="endpoint=${TF_VAR_backend_endpoint}" \
+          -backend-config="key=${TF_VAR_backend_key}" \
+          -backend-config="bucket=${TF_VAR_backend_bucket}" \
+          -backend-config="region=${TF_VAR_backend_region}"
+
+  validate:
+    <<: *common
+    container_name: "terraform-vm-validate"
+    command:
+      - "terraform validate"  
+
+  plan:
+    <<: *common
+    container_name: "terraform-vm-plan"
+    command:
+      - "terraform plan"  
+
+  apply:
+    <<: *common
+    container_name: "terraform-vm-apply"
+    command:
+      - "terraform apply -auto-approve"  
+
+  destroy:
+    <<: *common
+    container_name: "terraform-vm-destroy"
+    command:
+      - "terraform destroy -auto-approve"  
+
+# TERRAFORM BACKEND 
+
+  backend:
+    image: minio/minio:latest 
+    volumes:
+      - ./minio:/data
+    ports:
+      - 9001:9001
+      - 9002:9002
+    expose:
+      - 9001
+      - 9002
+    environment:
+      MINIO_ROOT_USER: 'username'
+      MINIO_ROOT_PASSWORD: 'userpass'
+      MINIO_ADDRESS: ':9001'
+      MINIO_CONSOLE_ADDRESS: ':9002'
+    command:
+      - "minio server /data"
+
+volumes:
+  tfdata:

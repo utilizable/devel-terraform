@@ -1,0 +1,19 @@
+version: "3.2"
+services:
+
+  minio:
+    image: minio/minio:latest 
+    volumes:
+      - ./data:/data
+    ports:
+      - 9001:9001
+      - 9002:9002
+    expose:
+      - 9001
+      - 9002
+    environment:
+      MINIO_ROOT_USER: 'user-name'
+      MINIO_ROOT_PASSWORD: 'user-pass'
+      MINIO_ADDRESS: ':9001'
+      MINIO_CONSOLE_ADDRESS: ':9002'
+    command: minio server /data 
