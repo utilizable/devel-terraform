@@ -12,6 +12,10 @@ services:
     volumes:
       - ./terraform:/app
       - tfdata:/tfdata
+    labels:
+      - "${LABEL_KEY}=${LABEL_VALUE}"
+    networks:
+      - shared-network
 
 # TERRAFORM STAGES
 
@@ -26,19 +30,8 @@ services:
           -backend-config="endpoint=${TF_VAR_backend_endpoint}" \
           -backend-config="key=${TF_VAR_backend_key}" \
           -backend-config="bucket=${TF_VAR_backend_bucket}" \
-          -backend-config="region=${TF_VAR_backend_region}"
-
-  validate:
-    <<: *common
-    container_name: "terraform-vm-validate"
-    command:
-      - "terraform validate"  
-
-  plan:
-    <<: *common
-    container_name: "terraform-vm-plan"
-    command:
-      - "terraform plan"  
+          -backend-config="region=${TF_VAR_backend_region}" \
+          -reconfigure
 
   apply:
     <<: *common
@@ -55,9 +48,11 @@ services:
 # TERRAFORM BACKEND 
 
   backend:
-    image: minio/minio:latest 
+    image: quay.io/minio/minio:RELEASE.2023-11-01T01-57-10Z-cpuv1
+    networks:
+      - shared-network
     volumes:
-      - ./minio:/data
+      - "/tmp/data-${LABEL_VALUE}:/data"
     ports:
       - 9001:9001
       - 9002:9002
@@ -69,8 +64,11 @@ services:
       MINIO_ROOT_PASSWORD: 'userpass'
       MINIO_ADDRESS: ':9001'
       MINIO_CONSOLE_ADDRESS: ':9002'
-    command:
-      - "minio server /data"
+    command: minio server /data
 
 volumes:
   tfdata:
+
+networks:
+  shared-network:
+    driver: bridge

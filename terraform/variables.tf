@@ -1,4 +1,4 @@
-# LXD PROVIDER VARIABLES
+# PROVIDER VARIABLES
 # ------------------
 
 # The name of the LXD provider. This can be a descriptive name for the LXD
