@@ -17,13 +17,9 @@ PATH_BACKEND := $(CURDIR)/$(FILE_BACKEND)
 PATH_ENV := $(CURDIR)/$(FILE_ENV)
 
 # COMMANDS
-<<<<<<< HEAD
-CMD_COMPOSE := $(EXE_COMPOSE) -f $(PATH_COMPOSE) --env-file $(PATH_ENV)
-=======
 CMD_COMPOSE := LABEL_KEY="$(DOCKER_LABEL_KEY)" \
 							 LABEL_VALUE="$(DOCKER_LABEL_VALUE)" \
 							 $(EXE_COMPOSE) -f $(PATH_COMPOSE) --env-file $(PATH_ENV)
->>>>>>> 657fc36 (feat: major changes; example of .env variable, better handling backend connection)
 
 CMD_CONTAINERS := docker ps -aq --filter "label=$(DOCKER_LABEL)"
 
