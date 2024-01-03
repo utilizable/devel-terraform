@@ -21,10 +21,10 @@ make init
 ## ⚙️ Configuration
 <sup>[(Back to top)](#table-of-contents)</sup>
 
-Each of compose-stages are able to consume following environment variables, `.env_prod` overrides variables from `.env_test` 
+Each compose stages have access to variables definied in:
 
-- [.env_test](./env_test) - testing related variables,
-- [.env_prod](./env_prod) - production related variables
+- [.env_test](./env_test) - Non-production variables, lower prio,
+- [.env_prod](./env_prod) - Production-related variables, higher prio.
 
 You can also store `.env_prod` configuration as github secreat and create coresponding file during pipeline execution.
 
