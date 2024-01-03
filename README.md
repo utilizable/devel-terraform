@@ -18,7 +18,7 @@ This repository serves as a template for Terraform projects, enhanced with a Mak
 ## 🧰 Requirements
 <sup>[(Back to top)](#table-of-contents)</sup>
 
-Make sure you install both the docker engine (which already includes the built-in docker compose) and make.
+Make sure you have installed both - latest docker engine and gnu make!
 
   - `Docker` - https://docs.docker.com/desktop/install/
   - `Make` - https://ftp.gnu.org/gnu/make/
