@@ -15,8 +15,8 @@ EXE_COMPOSE := docker compose
 # ------------------
 
 FILE_COMPOSE := compose.yml
-FILE_ENV_TEST := .env_test
-FILE_ENV_PROD := .env_prod
+FILE_ENV_DEV := .env_development
+FILE_ENV_PROD := .env_production
 
 # PATH
 # ------------------
@@ -24,17 +24,17 @@ FILE_ENV_PROD := .env_prod
 # path to docker compose definition
 PATH_COMPOSE := $(CURDIR)/$(FILE_COMPOSE)
 
-# path to .env_test file
-PATH_ENV_TEST := $(CURDIR)/$(FILE_ENV_TEST)
+# path to .env_development file
+PATH_ENV_DEV := $(CURDIR)/$(FILE_ENV_TEST)
 
-# path to .env_prod file
+# path to .env_production file
 PATH_ENV_PROD := $(CURDIR)/$(FILE_ENV_PRIV)
 
 # COMMANDS
 # ------------------
 
 # docker compose script string, ready to evaluate in make stages
-CMD_COMPOSE := LABEL_KEY="$(DOCKER_LABEL_KEY)" LABEL_VALUE="$(DOCKER_LABEL_VALUE)" $(EXE_COMPOSE) -f $(PATH_COMPOSE) --env-file $(PATH_ENV_TEST) --env-file $(PATH_ENV_PROD)
+CMD_COMPOSE := LABEL_KEY="$(DOCKER_LABEL_KEY)" LABEL_VALUE="$(DOCKER_LABEL_VALUE)" $(EXE_COMPOSE) -f $(PATH_COMPOSE) --env-file $(PATH_ENV_DEV) --env-file $(PATH_ENV_PROD)
 
 # List all docker resources which contains specyfic label
 CMD_CONTAINERS := docker ps -aq --filter "label=$(DOCKER_LABEL)"
