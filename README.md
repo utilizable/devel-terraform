@@ -12,7 +12,7 @@ This repository serves as a template for Terraform projects, enhanced with a Mak
 - [Module options](#-module-options)
 - [Configuration](#%EF%B8%8F-configuration)
 - [Makefile stages](#-make-stages)
-- [Repository structure](#-repository-structure)
+- [Repository structure](#-repository-structure-1)
 - [Versioning model](#-versioning-model)
 
 ## 🧰 Requirements
