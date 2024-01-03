@@ -25,10 +25,10 @@ FILE_ENV_PROD := .env_production
 PATH_COMPOSE := $(CURDIR)/$(FILE_COMPOSE)
 
 # path to .env_development file
-PATH_ENV_DEV := $(CURDIR)/$(FILE_ENV_TEST)
+PATH_ENV_DEV := $(CURDIR)/$(FILE_ENV_DEV)
 
 # path to .env_production file
-PATH_ENV_PROD := $(CURDIR)/$(FILE_ENV_PRIV)
+PATH_ENV_PROD := $(CURDIR)/$(FILE_ENV_PROD)
 
 # COMMANDS
 # ------------------
