@@ -8,34 +8,49 @@ This repository serves as a template for Terraform projects, enhanced with a Mak
 
 ## Table of Contents
 - [Quick start](#%EF%B8%8F-quick-start)
+- [Module options](#-module-options)
 - [Configuration](#%EF%B8%8F-configuration)
 - [Makefile stages](#-make-stages)
-- [Template structure](#-template-structure)
+- [Repository structure](#-repository-structure)
 - [Versioning model](#-versioning-model)
   
 ## ⚡️ Quick start
 <sup>[(Back to top)](#table-of-contents)</sup>
 
-Clone repository, and execute:
+  1. Clone repository
+  2. adjust `.env_development`
+  3. execute `make init`
 
-```bash
-make init
+## 📔 Module Options
+<sup>[(Back to top)](#table-of-contents)</sup>
+
+Module is based on [terraform-lxd/lxd](https://registry.terraform.io/providers/terraform-lxd/lxd/latest/docs) provider
+
+#### Options
+```tf
+  container_name = "test"
+  container_img  = "ubuntu" 
 ```
+
+#### Structure
+- `./terraform/main.tf` - entrypoint for module,
+- `./terraform/modules/terraform-module-proxmox-vm/main.tf` - module core definition,
+- `./terraform/modules/terraform-module-proxmox-vm/variables.tf` - module variables.
 
 ## ⚙️ Configuration
 <sup>[(Back to top)](#table-of-contents)</sup>
 
 Each compose stages have access to variables definied in:
 
-- [.env_test](./env_test) - Non-production variables, lower prio,
-- [.env_prod](./env_prod) - Production-related variables, higher prio.
+- [.env_test](./env_development) - Development-related variables, lower prio,
+- [.env_prod](./env_production) - Production-related variables, higher prio.
 
 You can also store `.env_prod` configuration as github secreat and create coresponding file during pipeline execution.
 
 ```sh
 - name: Terraform apply
   run: |
-    echo "${{secrets.ENV_PROD}}" > .env_prod
+    echo "${{ secrets.ENV_PRODUCTION }}" > .env_prod
     make apply
 ```
 
