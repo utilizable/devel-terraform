@@ -43,7 +43,7 @@ services:
         terraform init \
           -backend-config="access_key=${TF_VAR_backend_access_key}" \
           -backend-config="secret_key=${TF_VAR_backend_secret_key}" \
-          -backend-config="endpoint=${TF_VAR_backend_endpoint}" \
+          -backend-config="endpoint=${TF_VAR_backend_scheme}://${TF_VAR_backend_endpoint}:${TF_VAR_backend_port}" \
           -backend-config="key=${TF_VAR_backend_key}" \
           -backend-config="bucket=${TF_VAR_backend_bucket}" \
           -backend-config="region=${TF_VAR_backend_region}" \
