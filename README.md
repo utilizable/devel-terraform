@@ -60,6 +60,7 @@ Stages definied in makefile.
 - `./.env_prod` production variables.
 
 ## 🔖 Versioning model
+<sup>[(Back to top)](#table-of-contents)</sup>
 
 Versions have the format `<MAJOR>.<MINOR>(.<PATCH>)?` where:
 
