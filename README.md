@@ -50,7 +50,7 @@ Stages definied in makefile.
 - `make apply` - Execute `terraform apply` for modules located in `./terraform` inside docker container,
 - `make destroy` - Execute `terraform destroy` for modules located in `./terraform` inside docker container.
 
-## 🗄 Template structure
+## 🗄 Repository structure
 <sup>[(Back to top)](#table-of-contents)</sup>
 
 - `./terraform` terraform related resources, workdir for compose-containers,
