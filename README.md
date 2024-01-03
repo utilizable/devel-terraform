@@ -21,7 +21,7 @@ make init
 ## 📒 Makefile stages
 <sup>[(Back to top)](#table-of-contents)</sup>
 
-- `make prune` - Wipe all docker related resources based on label (project directory name),
+- `make prune` - Wipe all docker-related resources associated with the current project,
 - `make backend` - Wrap minimal S3 backend ([MinIO](https://min.io/)) with predefinied S3 bucket (based on `TF_VAR_backend_bucket` variable),
 - `make init` - Execute `terraform init` for modules located in `./terraform` inside docker container,
 - `make apply` - Execute `terraform apply` for modules located in `./terraform` inside docker container,
@@ -65,7 +65,7 @@ TF_VAR_backend_key="your-s3-backend-tfstate-key"
 TF_VAR_backend_bucket="your-s3-backend-bucket"
 TF_VAR_backend_region="your-s3-backend-region"
 ```
-You can also stroe this configuration in github actions secreat and create it during pipeline execution.
+You can also store this configuration in github actions secreat and create it during pipeline execution.
 
 ```sh
 echo "${{secrets.ENV_PRIV}}" > .env_priv
