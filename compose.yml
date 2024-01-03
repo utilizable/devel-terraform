@@ -18,10 +18,17 @@ services:
       - shared-network
 
 # TERRAFORM STAGES
+  fmt:
+    <<: *common
+    container_name: "terraform-fmt"
+    command:
+      - |
+        find ./ -name "*.tf" -exec terraform fmt {} \;
+
 
   init:
     <<: *common
-    container_name: "terraform-vm-init"
+    container_name: "terraform-init"
     command:
       - |
         terraform init \
@@ -35,13 +42,13 @@ services:
 
   apply:
     <<: *common
-    container_name: "terraform-vm-apply"
+    container_name: "terraform-apply"
     command:
       - "terraform apply -auto-approve"  
 
   destroy:
     <<: *common
-    container_name: "terraform-vm-destroy"
+    container_name: "terraform-destroy"
     command:
       - "terraform destroy -auto-approve"  
 
@@ -72,3 +79,4 @@ volumes:
 networks:
   shared-network:
     driver: bridge
+

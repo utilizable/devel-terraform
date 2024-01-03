@@ -31,7 +31,10 @@ prune:
 backend:
 	-@($(CMD_COMPOSE) up -d backend)
 
-init: prune
+fmt: prune
+	-@($(CMD_COMPOSE) up fmt)
+
+init: prune 
 	-@($(CMD_COMPOSE) up init)
 
 apply: init
