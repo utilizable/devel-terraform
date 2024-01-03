@@ -3,10 +3,10 @@ Development - Terraform
 This repository serves as a template for Terraform projects, enhanced with a Makefile and Docker Compose for streamlined setup and usage.
 
 ## Table of Contents
-- [Quick start](#-quick-start)
+- [Quick start](#%EF%B8%8F-quick-start)
 - [Makefile stages](#-makefile-stages)
 - [Template structure](#-template-structure)
-- [Production Configuration](#-production-configuration)
+- [Production Configuration](#%EF%B8%8F-production-configuration)
 - [Versioning model](#-versioning-model)
   
 ## ⚡️ Quick start
