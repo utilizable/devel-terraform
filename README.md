@@ -60,10 +60,9 @@ Stages definied in makefile.
 - `./.env_prod` production variables.
 
 ## 🔖 Versioning model
-<sup>[(Back to top)](#table-of-contents)</sup>
 
 Versions have the format `<MAJOR>.<MINOR>(.<PATCH>)?` where:
 
-- `<MAJOR>` Triggered manualy; from develop branch,
-- `<MINOR>` Triggered automaticly after each push; from develop branch,
-- `<PATCH>` Triggered automaticly after each push; from fix branch (fix/1.1.x).
+- `<MAJOR>` Triggered manualy from develop branch,
+- `<MINOR>` Triggered automaticly after each push from develop branch,
+- `<PATCH>` Triggered automaticly after each push from fix/A.B.C branch.
