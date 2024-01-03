@@ -33,18 +33,13 @@ Make sure you install both the docker engine (which already includes the built-i
 ## 📔 Module Options
 <sup>[(Back to top)](#table-of-contents)</sup>
 
-Module is based on [terraform-lxd/lxd](https://registry.terraform.io/providers/terraform-lxd/lxd/latest/docs) provider
+Module is based on [terraform-lxd/lxd](https://registry.terraform.io/providers/terraform-lxd/lxd/latest/docs) provider.
 
 #### Options
 ```tf
   container_name = "test"
   container_img  = "ubuntu" 
 ```
-
-#### Structure
-- `./terraform/main.tf` - entrypoint for module,
-- `./terraform/modules/terraform-module-proxmox-vm/main.tf` - module core definition,
-- `./terraform/modules/terraform-module-proxmox-vm/variables.tf` - module variables.
 
 ## ⚙️ Configuration
 <sup>[(Back to top)](#table-of-contents)</sup>
