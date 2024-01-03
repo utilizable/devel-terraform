@@ -2,6 +2,10 @@ Development - Terraform
 ============
 This repository serves as a template for Terraform projects, enhanced with a Makefile and Docker Compose for streamlined setup and usage.
 
+## 🪜 Repository Structure
+> [utilizable/github-actions-semver-tagging](https://github.com/utilizable/github-actions-semver-tagging)
+>> [utilizable/terraform-development](https://github.com/utilizable/terraform-development)
+
 ## Table of Contents
 - [Quick start](#%EF%B8%8F-quick-start)
 - [Configuration](#%EF%B8%8F-configuration)
