@@ -7,13 +7,22 @@ This repository serves as a template for Terraform projects, enhanced with a Mak
 >> [utilizable/terraform-development](https://github.com/utilizable/terraform-development)
 
 ## Table of Contents
+- [Requirements](#-requirements)
 - [Quick start](#%EF%B8%8F-quick-start)
 - [Module options](#-module-options)
 - [Configuration](#%EF%B8%8F-configuration)
 - [Makefile stages](#-make-stages)
 - [Repository structure](#-repository-structure)
 - [Versioning model](#-versioning-model)
-  
+
+## 🧰 Requirements
+<sup>[(Back to top)](#table-of-contents)</sup>
+
+Make sure you install both the docker engine (which already includes the built-in docker compose) and make.
+
+  - `Docker` - https://docs.docker.com/desktop/install/
+  - `Make` - https://ftp.gnu.org/gnu/make/
+
 ## ⚡️ Quick start
 <sup>[(Back to top)](#table-of-contents)</sup>
 
