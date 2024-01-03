@@ -42,8 +42,8 @@ Module is based on [terraform-lxd/lxd](https://registry.terraform.io/providers/t
 
 Each compose stages have access to variables definied in:
 
-- [.env_test](./env_development) - Development-related variables, lower prio,
-- [.env_prod](./env_production) - Production-related variables, higher prio.
+- [.env_development](./env_development) - Development-related variables, lower prio,
+- [.env_production](./env_production) - Production-related variables, higher prio.
 
 You can also store `.env_prod` configuration as github secreat and create coresponding file during pipeline execution.
 
