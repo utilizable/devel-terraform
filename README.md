@@ -35,30 +35,29 @@ Make sure you have installed both - latest docker and gnu make!
 
 Module is based on [example](https://registry.terraform.io/providers/) provider.
 
-#### Required
+#### Input Variables
 ```tf
 ...
 ```
-
-#### Options
-```tf
- ...
+#### Environment Requirements
+```ini
+...
 ```
-
 ## ⚙️ Configuration
 <sup>[(Back to top)](#table-of-contents)</sup>
 
-Each compose stages have access to variables definied in:
+You can overload default `.env` configuration file using ENV_FILE variable. 
 
-- [.env](./env) - Default configuration file
-
-You can also override this by passing variable to makefile itself.
-
+#### Command Line:
+```sh
+ENV_FILE=./.env_production make apply
+```
+#### Github Actions:
 ```sh
 - name: Terraform apply
   run: |
-    echo "${{ secrets.ENV_PRODUCTION }}" > .env_production
-    ENV_FILE=.env_production make apply
+    echo "${{ secrets.ENV_PRODUCTION }}" > ./.env_production
+    ENV_FILE=./.env_production make apply
 ```
 
 ## 📒 Make stages
@@ -79,7 +78,7 @@ Stages definied in makefile.
 - `./terraform` terraform related resources, workdir for compose-containers,
 - `./compose.yml` each step contains its own docker container,
 - `./makefile` entrypoint,
-- `./.env` default configurations,
+- `./.env` default configurations.
 
 ## 🔖 Versioning model
 <sup>[(Back to top)](#table-of-contents)</sup>
