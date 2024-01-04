@@ -1,10 +1,10 @@
-Development - Terraform
+Terraform - Module
 ============
-This repository serves as a template for Terraform projects, enhanced with a Makefile and Docker Compose for streamlined setup and usage.
+This repository serves as a generic terraform template, enhanced with a Makefile and Docker Compose for streamlined setup and usage.
 
 ## 🪜 Repository Structure
 > [utilizable/github-actions-semver-tagging](https://github.com/utilizable/github-actions-semver-tagging)
->> [utilizable/terraform-development](https://github.com/utilizable/terraform-development)
+>> [utilizable/terraform-module](https://github.com/utilizable/terraform-module)
 
 ## Table of Contents
 - [Requirements](#-requirements)
@@ -18,7 +18,7 @@ This repository serves as a template for Terraform projects, enhanced with a Mak
 ## 🧰 Requirements
 <sup>[(Back to top)](#table-of-contents)</sup>
 
-Make sure you have installed both - latest docker engine and gnu make!
+Make sure you have installed both - latest docker and gnu make!
 
   - `Docker` - https://docs.docker.com/desktop/install/
   - `Make` - https://ftp.gnu.org/gnu/make/
@@ -33,12 +33,16 @@ Make sure you have installed both - latest docker engine and gnu make!
 ## 📔 Module Options
 <sup>[(Back to top)](#table-of-contents)</sup>
 
-Module is based on [terraform-lxd/lxd](https://registry.terraform.io/providers/terraform-lxd/lxd/latest/docs) provider.
+Module is based on [example](https://registry.terraform.io/providers/) provider.
+
+#### Required
+```tf
+...
+```
 
 #### Options
 ```tf
-  container_name = "test"
-  container_img  = "ubuntu" 
+ ...
 ```
 
 ## ⚙️ Configuration
@@ -46,15 +50,16 @@ Module is based on [terraform-lxd/lxd](https://registry.terraform.io/providers/t
 
 Each compose stages have access to variables definied in:
 
+- [.env](./env) - File for terraform configuration
 - [.env_development](./env_development) - Development-related variables, lower prio,
 - [.env_production](./env_production) - Production-related variables, higher prio.
 
-You can also store `.env_prod` configuration as github secreat and create coresponding file during pipeline execution.
+You can also store `.env_production` configuration as github secreat and create coresponding file during pipeline execution.
 
 ```sh
 - name: Terraform apply
   run: |
-    echo "${{ secrets.ENV_PRODUCTION }}" > .env_prod
+    echo "${{ secrets.ENV_PRODUCTION }}" > .env_production
     make apply
 ```
 
@@ -66,6 +71,7 @@ Stages definied in makefile.
 - `make prune` - Wipe all docker-related resources associated with the current project,
 - `make backend` - Setup [MinIO](https://min.io/) S3 backend with pre-definied bucket (`TF_VAR_backend_bucket` variable based),
 - `make init` - Execute `terraform init` for modules located in `./terraform` inside docker container,
+- `make plan` - Execute `terraform plan` for modules located in `./terraform` inside docker container,
 - `make apply` - Execute `terraform apply` for modules located in `./terraform` inside docker container,
 - `make destroy` - Execute `terraform destroy` for modules located in `./terraform` inside docker container.
 
@@ -75,6 +81,7 @@ Stages definied in makefile.
 - `./terraform` terraform related resources, workdir for compose-containers,
 - `./compose.yml` each step contains its own docker container,
 - `./makefile` entrypoint,
+- `./.env` terraform configuration,
 - `./.env_test` non-production variables,
 - `./.env_prod` production variables.
 
