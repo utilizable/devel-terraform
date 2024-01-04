@@ -27,7 +27,7 @@ Make sure you have installed both - latest docker and gnu make!
 <sup>[(Back to top)](#table-of-contents)</sup>
 
   1. Clone repository
-  2. adjust `.env_development`
+  2. adjust `.env`
   3. execute `make init`
 
 ## 📔 Module Options
@@ -50,17 +50,15 @@ Module is based on [example](https://registry.terraform.io/providers/) provider.
 
 Each compose stages have access to variables definied in:
 
-- [.env](./env) - File for terraform configuration
-- [.env_development](./env_development) - Development-related variables, lower prio,
-- [.env_production](./env_production) - Production-related variables, higher prio.
+- [.env](./env) - Default configuration file
 
-You can also store `.env_production` configuration as github secreat and create coresponding file during pipeline execution.
+You can also override this by passing variable to makefile itself.
 
 ```sh
 - name: Terraform apply
   run: |
     echo "${{ secrets.ENV_PRODUCTION }}" > .env_production
-    make apply
+    ENV_FILE=.env_production make apply
 ```
 
 ## 📒 Make stages
@@ -69,7 +67,7 @@ You can also store `.env_production` configuration as github secreat and create 
 Stages definied in makefile.
 
 - `make prune` - Wipe all docker-related resources associated with the current project,
-- `make backend` - Setup [MinIO](https://min.io/) S3 backend with pre-definied bucket (`TF_VAR_backend_bucket` variable based),
+- `make backend` - Setup [MinIO](https://min.io/) S3 backend with pre-definied bucket (`backend_bucket` variable based),
 - `make init` - Execute `terraform init` for modules located in `./terraform` inside docker container,
 - `make plan` - Execute `terraform plan` for modules located in `./terraform` inside docker container,
 - `make apply` - Execute `terraform apply` for modules located in `./terraform` inside docker container,
@@ -81,9 +79,7 @@ Stages definied in makefile.
 - `./terraform` terraform related resources, workdir for compose-containers,
 - `./compose.yml` each step contains its own docker container,
 - `./makefile` entrypoint,
-- `./.env` terraform configuration,
-- `./.env_test` non-production variables,
-- `./.env_prod` production variables.
+- `./.env` default configurations,
 
 ## 🔖 Versioning model
 <sup>[(Back to top)](#table-of-contents)</sup>
