@@ -27,7 +27,7 @@ Make sure you have installed both - latest docker and gnu make!
 <sup>[(Back to top)](#table-of-contents)</sup>
 
   1. Clone repository
-  2. adjust `.env`
+  2. adjust [.env](./build/.env)
   3. execute `make init`
 
 ## 📔 Module Options
