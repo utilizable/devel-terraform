@@ -60,18 +60,18 @@ services:
     image: hashicorp/terraform:latest
     working_dir: /app
     volumes:
-      - ../terraform:/app
+      - ./terraform:/app
       - tfdata:/tfdata
 
-# terraform - lint 
+# terraform - fmt
 # ------------------
-  lint:
+  fmt:
     <<: *terraform
     container_name: "terraform-fmt"
     command:
       - |
         env;
-        find ./ -name "*.tf" -exec terraform fmt -diff=true -recursive -write=true {} \;
+        find ./ -name "*.tf" -exec terraform fmt {} \;
 
 # terraform - init 
 # ------------------
