@@ -38,13 +38,11 @@ Module is based on [example](https://registry.terraform.io/providers/) provider.
 #### Input Variables
 ```tf
 # ./terraform/main.tf
-
 ...
 ```
 #### Environment Requirements
 ```ini
-# ./.env
-
+# ./build/.env
 ...
 ```
 ## ⚙️ Configuration
@@ -65,8 +63,7 @@ make apply
 - name: Terraform apply
   run: |
     echo "${{ secrets.ENV_PRODUCTION }}" > .env.override
-    export ENV_FILE="${pwd}/.env.override"
-    make apply
+    ENV_FILE=.env.override make apply
 ```
 
 ## 📒 Make stages
@@ -75,6 +72,7 @@ make apply
 Stages definied in makefile.
 
 - `make prune` - Wipe all docker-related resources associated with the current project,
+- `make show` - Execute dokcer-compose ps -a,
 - `make backend` - Setup [MinIO](https://min.io/) S3 backend with pre-definied bucket (`backend_bucket` variable based),
 - `make init` - Execute `terraform init` for modules located in `./terraform` inside docker container,
 - `make plan` - Execute `terraform plan` for modules located in `./terraform` inside docker container,
@@ -85,9 +83,9 @@ Stages definied in makefile.
 <sup>[(Back to top)](#table-of-contents)</sup>
 
 - `./terraform` terraform related resources, workdir for compose-containers,
-- `./compose.yml` each step contains its own docker container,
-- `./makefile` entrypoint,
-- `./.env` default configurations.
+- `./build/compose.yml` each step contains its own docker container,
+- `./Makefile` entrypoint,
+- `./build/.env` default configurations.
 
 ## 🔖 Versioning model
 <sup>[(Back to top)](#table-of-contents)</sup>
