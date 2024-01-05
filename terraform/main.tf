@@ -1,6 +1,6 @@
 module "module-a" {
   // source module
-  source = "./modules/" 
+  source = "./modules/"
 
   // pass provider variables to module 
 
