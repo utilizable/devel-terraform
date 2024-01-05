@@ -18,7 +18,7 @@ COMPOSE_FILE := compose.yml
 COMPOSE_PATH := $(CURDIR)/$(COMPOSE_FILE)
 
 # finall compose command - ready for evaluate 
-COMPOSE_CMD	:= $(COMPOSE_EXE) -f $(COMPOSE_PATH) --env-file $(ENV_PATH)
+COMPOSE_CMD	:= ENV_FILE=$(ENV_FILE) $(COMPOSE_EXE) -f $(COMPOSE_PATH) --env-file $(ENV_PATH)
 
 # STAGES
 # ------------------
@@ -32,8 +32,8 @@ backend:
 	-@($(COMPOSE_CMD) up -d backend)
 
 # execute terraform fmt 
-fmt:
-	-@($(COMPOSE_CMD) up fmt)
+lint:
+	-@($(COMPOSE_CMD) up lint)
 
 # execute terraform init 
 init: 
