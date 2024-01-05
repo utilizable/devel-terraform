@@ -15,10 +15,14 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Fetch Latest Submodule
-        run: |
-          git submodule update --init --recursive
-          git submodule update --recursive --remote
-          git commit -am "Auto updated submodule references" && git push || echo "No changes to commit"
+    - name: Checkout Repository with Submodules
+      uses: actions/checkout@v3
+      with:
+        repository: utilizable/terraform-module
+        token: ${{ secrets.PRIVATE_TOKEN_GITHUB }}
+        submodules: 'recursive'
+
+    - name: Fetch Latest Submodule
+      run: |
+        git submodule update --init --recursive
+
