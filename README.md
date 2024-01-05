@@ -65,7 +65,8 @@ make apply
 - name: Terraform apply
   run: |
     echo "${{ secrets.ENV_PRODUCTION }}" > .env.override
-    ENV_FILE=.env.override make apply
+    export ENV_FILE="${pwd}/.env.override"
+    make apply
 ```
 
 ## 📒 Make stages

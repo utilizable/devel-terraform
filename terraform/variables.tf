@@ -1,8 +1,4 @@
-# PROVIDER VARIABLES
-# ------------------
+# variables.tf
 
-variable "example" {
-  type        = string
-  description = "Example variable"
-  default     = "example"
-}
+# VARIABLES - PROVIDER
+# ------------------

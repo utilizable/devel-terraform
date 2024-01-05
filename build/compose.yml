@@ -1,24 +1,29 @@
+# compose.yml
+
 version: "3.2"
 services:
 
-# ------------------
+# ##################
 # COMMON 
-# ------------------
+# ##################
 
   common: &common
     image: "null"
     entrypoint: [ "sh", "-c" ]
     env_file:
       - "${ENV_FILE}"
+    networks:
+      - shared-network
 
-# ------------------
-# MINIO 
-# ------------------
+
+# ##################
+# BACKEND 
+# ##################
 
 # common - minio 
 # ------------------
 
-  minio: &minio
+  backend: &backend
     <<: *common
     image: quay.io/minio/minio:RELEASE.2023-11-01T01-57-10Z-cpuv1
     restart: "no"
@@ -27,8 +32,8 @@ services:
 # ------------------
 
   backend-core:
-    <<: *minio
-    hostname: minio
+    <<: *backend
+    hostname: backend 
     environment:
       MINIO_ROOT_USER: "${backend_access_key}"
       MINIO_ROOT_PASSWORD: "${backend_secret_key}"
@@ -40,8 +45,8 @@ services:
 # minio - init bucket
 # ------------------
 
-  backend:
-    <<: *minio
+  backend-init:
+    <<: *backend
     command: 
       - |
         mc alias set backend ${backend_endpoint} ${backend_access_key} ${backend_secret_key}; 
@@ -49,9 +54,9 @@ services:
     depends_on:
       - 'backend-core'
 
-# ------------------
+# ##################
 # TERRAFORM
-# ------------------
+# ##################
 
 # common - terraform
 # ------------------
@@ -60,10 +65,10 @@ services:
     image: hashicorp/terraform:latest
     working_dir: /app
     volumes:
-      - ./terraform:/app
+      - ../terraform:/app
       - tfdata:/tfdata
 
-# terraform - fmt
+# terraform - lint 
 # ------------------
   lint:
     <<: *terraform
@@ -79,6 +84,7 @@ services:
     container_name: "terraform-init"
     command:
       - |
+        env;
         terraform init \
           -backend-config="access_key=${backend_access_key}" \
           -backend-config="secret_key=${backend_secret_key}" \
@@ -122,3 +128,6 @@ services:
 volumes:
   tfdata:
 
+networks:
+  shared-network:
+    driver: bridge
