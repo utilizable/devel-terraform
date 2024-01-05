@@ -19,5 +19,5 @@ jobs:
            
       - name: Terraform apply
         run: |
-          echo "${{ secrets.ENV_PRODUCTION }}" > .env_production
-          make apply
+          echo "${{ secrets.ENV_PRODUCTION }}" > .env.override
+          ENV_FILE=.env.override make apply
