@@ -1,72 +1,51 @@
 # VARIABLES
 # ------------------
 
-DOCKER_LABEL_KEY := project
+# .env file - override logic
+ENV_FILE ?= .env 
 
-# Relative path of current directory
-DOCKER_LABEL_VALUE := $(notdir $(patsubst %/,%,$(CURDIR)))
+# .env file - path
+ENV_PATH := $(CURDIR)/$(ENV_FILE)
 
-# EXECUTABLES
+# docker compose executable 
+COMPOSE_EXE := docker compose
+
+# compose file - name
+COMPOSE_FILE := compose.yml
+
+# compose file - path
+COMPOSE_PATH := $(CURDIR)/$(COMPOSE_FILE)
+
+# finall compose command - ready for evaluate 
+COMPOSE_CMD	:= $(COMPOSE_EXE) -f $(COMPOSE_PATH) --env-file $(ENV_PATH)
+
+# STAGES
 # ------------------
 
-EXE_COMPOSE := docker compose
-
-# FILES
-# ------------------
-
-FILE_COMPOSE := compose.yml
-FILE_ENV_DEV := .env_development
-FILE_ENV_PROD := .env_production
-
-# PATH
-# ------------------
-
-# path to docker compose definition
-PATH_COMPOSE := $(CURDIR)/$(FILE_COMPOSE)
-
-# path to .env_development file
-PATH_ENV_DEV := $(CURDIR)/$(FILE_ENV_DEV)
-
-# path to .env_production file
-PATH_ENV_PROD := $(CURDIR)/$(FILE_ENV_PROD)
-
-# COMMANDS
-# ------------------
-
-# docker compose script string, ready to evaluate in make stages
-CMD_COMPOSE := LABEL_KEY="$(DOCKER_LABEL_KEY)" LABEL_VALUE="$(DOCKER_LABEL_VALUE)" $(EXE_COMPOSE) -f $(PATH_COMPOSE) --env-file $(PATH_ENV_DEV) --env-file $(PATH_ENV_PROD)
-
-# List all docker resources which contains specyfic label
-CMD_CONTAINERS := docker ps -aq --filter "label=$(DOCKER_LABEL)"
-
-# MAKE STAGES
-# ------------------
-
-# Prune all docker-related resources witch project-label
+# Prune all resources 
 prune:
-	@docker stop $(shell $(CMD_CONTAINERS)) 2>/dev/null || true
-	@docker rm -f $(shell $(CMD_CONTAINERS)) 2>/dev/null || true
-	@docker volume prune -f $(shell $(CMD_CONTAINERS)) 2>/dev/null || true
-	@docker network prune -f $(shell $(CMD_CONTAINERS)) 2>/dev/null || true
-	@docker image prune -f $(shell $(CMD_CONTAINERS)) 2>/dev/null || true
+	-@($(COMPOSE_CMD) down --volumes --remove-orphans)
 
-# Start minio S3 backend, also initialize S3 bucket.
+# Start S3 backend
 backend:
-	-@($(CMD_COMPOSE) up -d backend)
-	-@($(CMD_COMPOSE) up -d backend-init)
+	-@($(COMPOSE_CMD) up -d backend)
 
-# Execute terraform fmt for each *.tf file inside ./terraform directory
+# execute terraform fmt 
 fmt:
-	-@($(CMD_COMPOSE) up fmt)
+	-@($(COMPOSE_CMD) up fmt)
 
-# Initialize terraform backend, passing to it variables form .env_test and .env_prod
-init: backend
-	-@($(CMD_COMPOSE) up init)
+# execute terraform init 
+init: 
+	-@($(COMPOSE_CMD) up init)
 
-# Apply resource
+# execute terraform plan
+plan: init
+	-@($(COMPOSE_CMD) up plan)
+
+# execute terraform apply 
 apply: init
-	-@($(CMD_COMPOSE) up apply)
+	-@($(COMPOSE_CMD) up apply)
 
-# Destroy resource
-destroy: 
-	-@($(CMD_COMPOSE) up destroy)
+# execute terraform destroy 
+destroy: init
+	-@($(COMPOSE_CMD) up destroy)

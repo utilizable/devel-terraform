@@ -1,119 +1,125 @@
 version: "3.2"
 services:
 
+# ------------------
 # COMMON 
 # ------------------
+
   common: &common
     image: "null"
     entrypoint: [ "sh", "-c" ]
     env_file:
-      - .env_test
-      - .env_prod
-    networks:
-      - shared-network
+      - "${ENV_FILE}"
 
-# COMMON - TERRAFORM
 # ------------------
-  common-terraform: &common-terraform
+# MINIO 
+# ------------------
+
+# common - minio 
+# ------------------
+
+  minio: &minio
+    <<: *common
+    image: quay.io/minio/minio:RELEASE.2023-11-01T01-57-10Z-cpuv1
+    restart: "no"
+
+# minio - backend
+# ------------------
+
+  backend-core:
+    <<: *minio
+    hostname: minio
+    environment:
+      MINIO_ROOT_USER: "${backend_access_key}"
+      MINIO_ROOT_PASSWORD: "${backend_secret_key}"
+      MINIO_ADDRESS: ":${backend_port}"
+    command: 
+      - |
+        minio server /data;
+
+# minio - init bucket
+# ------------------
+
+  backend:
+    <<: *minio
+    command: 
+      - |
+        mc alias set backend ${backend_endpoint} ${backend_access_key} ${backend_secret_key}; 
+        mc mb backend/${backend_bucket};
+    depends_on:
+      - 'backend-core'
+
+# ------------------
+# TERRAFORM
+# ------------------
+
+# common - terraform
+# ------------------
+  terraform: &terraform
     <<: *common
     image: hashicorp/terraform:latest
     working_dir: /app
     volumes:
       - ./terraform:/app
       - tfdata:/tfdata
-    labels:
-      - "${LABEL_KEY}=${LABEL_VALUE}"
 
-# TERRAFORM - FMT
+# terraform - fmt
 # ------------------
   fmt:
-    <<: *common-terraform
+    <<: *terraform
     container_name: "terraform-fmt"
     command:
       - |
+        env;
         find ./ -name "*.tf" -exec terraform fmt {} \;
 
-# TERRAFORM - INIT 
+# terraform - init 
 # ------------------
   init:
-    <<: *common-terraform
+    <<: *terraform
     container_name: "terraform-init"
     command:
       - |
         terraform init \
-          -backend-config="access_key=${TF_VAR_backend_access_key}" \
-          -backend-config="secret_key=${TF_VAR_backend_secret_key}" \
-          -backend-config="endpoint=${TF_VAR_backend_scheme}://${TF_VAR_backend_endpoint}:${TF_VAR_backend_port}" \
-          -backend-config="key=${TF_VAR_backend_key}" \
-          -backend-config="bucket=${TF_VAR_backend_bucket}" \
-          -backend-config="region=${TF_VAR_backend_region}" \
-          -reconfigure
+          -backend-config="access_key=${backend_access_key}" \
+          -backend-config="secret_key=${backend_secret_key}" \
+          -backend-config="endpoint=${backend_endpoint}" \
+          -backend-config="key=${backend_key}" \
+          -backend-config="bucket=${backend_bucket}" \
+          -backend-config="region=${backend_region}" \
+          -reconfigure;
 
-# TERRAFORM - APPLY 
+# terraform - plan 
+# ------------------
+  plan:
+    <<: *terraform
+    container_name: "terraform-plan"
+    command:
+      - |
+        terraform plan;
+
+# terraform - apply 
 # ------------------
   apply:
-    <<: *common-terraform
+    <<: *terraform
     container_name: "terraform-apply"
     command:
-      - "terraform apply -auto-approve"  
+      - |
+        terraform apply -auto-approve;
 
-# TERRAFORM - DESTROY 
+# terraform - destroy 
 # ------------------
   destroy:
-    <<: *common-terraform
+    <<: *terraform
     container_name: "terraform-destroy"
     command:
-      - "terraform destroy -auto-approve"  
+      - | 
+        terraform destroy -auto-approve;
 
 # ------------------
-# MINIO S3 - BACKEND
+# RESOURCES 
 # ------------------
-
-# COMMON - MINIO 
-# ------------------
-
-  common-backend: &common-backend
-    <<: *common
-    image: quay.io/minio/minio:RELEASE.2023-11-01T01-57-10Z-cpuv1
-    restart: "no"
-
-# MINIO - BACKEND
-# ------------------
-
-  backend:
-    <<: *common-backend
-    volumes:
-      - "/tmp/data-${LABEL_VALUE}:/data"
-    ports:
-      - 9001:9001
-      - 9002:9002
-    expose:
-      - 9001
-      - 9002
-    environment:
-      MINIO_ROOT_USER: 'username'
-      MINIO_ROOT_PASSWORD: 'userpass'
-      MINIO_ADDRESS: ':9001'
-      MINIO_CONSOLE_ADDRESS: ':9002'
-    command: 
-      - |
-        minio server /data
-
-# MINIO - INIT BUCKET
-# ------------------
-
-  backend-init:
-    <<: *common-backend
-    command: 
-      - |
-        mc alias set backend http://backend:9001 ${TF_VAR_backend_access_key} ${TF_VAR_backend_secret_key}; 
-        mc mb backend/${TF_VAR_backend_bucket};
-    depends_on:
-      - 'backend'
 
 volumes:
   tfdata:
 
-networks:
-  shared-network:
-    driver: bridge
