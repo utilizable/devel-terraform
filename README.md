@@ -50,14 +50,14 @@ You can overload default `.env` configuration file using ENV_FILE variable.
 
 #### Command Line:
 ```sh
-ENV_FILE=./.env_production make apply
+ENV_FILE=./.env.override make apply
 ```
 #### Github Actions:
 ```sh
 - name: Terraform apply
   run: |
-    echo "${{ secrets.ENV_PRODUCTION }}" > ./.env_production
-    ENV_FILE=./.env_production make apply
+    echo "${{ secrets.ENV_PRODUCTION }}" > ./.env.override
+    ENV_FILE=./.env.override make apply
 ```
 
 ## 📒 Make stages
