@@ -1,4 +1,4 @@
-Terraform - Module
+Terraform Module
 ============
 This repository serves as a generic terraform template, enhanced with a Makefile and Docker Compose for streamlined setup and usage.
 
@@ -37,10 +37,14 @@ Module is based on [example](https://registry.terraform.io/providers/) provider.
 
 #### Input Variables
 ```tf
+# ./terraform/main.tf
+
 ...
 ```
 #### Environment Requirements
 ```ini
+# ./.env
+
 ...
 ```
 ## ⚙️ Configuration
