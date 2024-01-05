@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'fix/\d+\.\d+\.x'
+      - 'develop'
 
 permissions:
   contents: write
