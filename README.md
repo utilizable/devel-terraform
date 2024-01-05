@@ -72,7 +72,7 @@ make apply
 Stages definied in makefile.
 
 - `make prune` - Wipe all docker-related resources associated with the current project,
-- `make show` - Execute dokcer-compose ps -a,
+- `make show` - Show executed containers (dokcer-compose ps -a),
 - `make backend` - Setup [MinIO](https://min.io/) S3 backend with pre-definied bucket (`backend_bucket` variable based),
 - `make init` - Execute `terraform init` for modules located in `./terraform` inside docker container,
 - `make plan` - Execute `terraform plan` for modules located in `./terraform` inside docker container,
