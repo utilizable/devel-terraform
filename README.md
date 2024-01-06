@@ -92,6 +92,6 @@ Stages definied in makefile.
 
 Versions have the format `<MAJOR>.<MINOR>(.<PATCH>)?` where:
 
-- `<MAJOR>` Triggered manualy from develop branch,
-- `<MINOR>` Triggered automaticly after each push from develop branch,
+- `<MAJOR>` Triggered manualy from default branch,
+- `<MINOR>` Triggered automaticly after each push from default branch,
 - `<PATCH>` Triggered automaticly after each push from fix/A.B.C branch.
