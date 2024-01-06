@@ -1,7 +1,6 @@
 name: minor
 
 on:
-  workflow_dispatch:
   
 jobs:
   compliance:
