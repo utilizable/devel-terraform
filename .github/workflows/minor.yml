@@ -2,7 +2,11 @@ name: minor
 
 on:
   push:
-
+  
+permissions:
+  contents: write
+  pull-requests: write
+  
 jobs:
   compliance:
     uses: utilizable/github-actions-semver-tagging/.github/workflows/minor.yml@develop
