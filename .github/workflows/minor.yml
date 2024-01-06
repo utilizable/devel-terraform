@@ -2,15 +2,8 @@ name: minor
 
 on:
   push:
-    # branches:
-    #  - develop
-  workflow_dispatch:
-    inputs:
-      semver_restriction_branch_skip:
-        description: 'Must be true or false. Default is true'
-        required: false
-        type: boolean
-        default: true
+    branches:
+      - develop
   
 permissions:
   contents: write
