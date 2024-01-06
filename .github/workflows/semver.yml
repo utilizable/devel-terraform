@@ -9,5 +9,5 @@ permissions:
   pull-requests: write
 
 jobs:
-  compliance:
+  semver:
     uses: utilizable/github-actions-semver-tagging/.github/workflows/semver.yml@develop
