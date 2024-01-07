@@ -94,4 +94,4 @@ Versions have the format `<MAJOR>.<MINOR>(.<PATCH>)?` where:
 
 - `<MAJOR>` Triggered manualy from default branch,
 - `<MINOR>` Triggered automaticly after each push from default branch,
-- `<PATCH>` Triggered automaticly after each push from fix/A.B.C branch.
+- `<PATCH>` Triggered automaticly after each push from fix/[0-9].[0-9].x branch.
