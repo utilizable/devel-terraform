@@ -1,8 +1,11 @@
-# main.tf
+# ./main.tf
+
+# MODULE - "" 
+# ------------------
 
 module "module" {
   // source module
-  source = "git::https://github.com/localstack-samples/localstack-terraform-samples.git//websocket-deploy"
+  source = ""
 
   // pass provider variables to module 
 

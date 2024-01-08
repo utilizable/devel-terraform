@@ -1,4 +1,7 @@
-# backend.tf
+# ./backend.tf
+
+# CONFIGURATION - BACKEND 
+# ------------------
 
 terraform {
   backend "s3" {
@@ -7,5 +10,10 @@ terraform {
     skip_region_validation      = true
     force_path_style            = true
     skip_requesting_account_id  = true
+  }
+  required_providers {
+    provider_name= {
+      source = provider_path 
+    }
   }
 }
