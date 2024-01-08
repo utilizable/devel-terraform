@@ -1,4 +1,4 @@
 # ./variables.tf
 
-# VARIABLES - PROVIDER
+# PROVIDER VARIABLES
 # ------------------
