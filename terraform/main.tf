@@ -1,6 +1,6 @@
 # ./main.tf
 
-# MODULE - "" 
+# ROOT - MODULES 
 # ------------------
 
 module "module" {

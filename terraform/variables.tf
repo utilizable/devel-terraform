@@ -1,4 +1,4 @@
 # ./variables.tf
 
-# PROVIDER VARIABLES
+# ROOT - VARIABLES
 # ------------------
